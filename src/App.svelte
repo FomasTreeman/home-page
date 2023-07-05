@@ -2,6 +2,7 @@
   import redirect from './lib/redirect';
   import log from './lib/log';
   import Crypto from './lib/Crypto.svelte';
+  import Github from './lib/Github.svelte';
 
   function enterHandler(e) {
     if (e.key !== 'Enter') return;
@@ -15,6 +16,7 @@
 
 <main>
   <Crypto />
+  <Github />
   <input
     type="search"
     on:keyup={enterHandler}
