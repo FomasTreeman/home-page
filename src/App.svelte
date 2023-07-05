@@ -5,17 +5,25 @@
   import Github from './lib/Github.svelte';
   import { onMount } from 'svelte';
   let searchForm;
+  let searchValue = '';
 
   function enterHandler(e) {
+    e.preventDefault();
     if (e.key !== 'Enter') return;
-    const input = encodeURIComponent(e.target.value);
     let url;
-    switch (input[0]) {
-      case '/': {
-        url = `https://www.phind.com/search?q=${input}&source=searchbox`;
-      }
+    log(searchValue[0]);
+    switch (searchValue[0]) {
+      case '/':
+        {
+          url = `https://www.phind.com/search?q=${encodeURIComponent(
+            searchValue.slice(1)
+          )}&source=searchbox`;
+        }
+        break;
       default: {
-        url = `https://www.google.com/search?q=${input}&sourceid=chrome&ie=UTF-8`;
+        url = `https://www.google.com/search?q=${encodeURIComponent(
+          searchValue
+        )}&sourceid=chrome&ie=UTF-8`;
       }
     }
     log(url);
@@ -32,7 +40,9 @@
   <Crypto />
   <Github />
   <input
+    style={searchValue[0] == '/' && 'border: 5px solid green;'}
     bind:this={searchForm}
+    bind:value={searchValue}
     type="search"
     on:keyup={enterHandler}
     placeholder="Search google or phind.com for  ..."
@@ -45,5 +55,6 @@
     border-radius: 1em;
     border: none;
     width: 30vw;
+    box-sizing: content-box;
   }
 </style>
