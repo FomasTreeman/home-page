@@ -4,8 +4,19 @@
   import Crypto from './lib/Crypto.svelte';
   import Github from './lib/Github.svelte';
   import { onMount } from 'svelte';
+  import hotkeys from 'hotkeys-js';
+
   let searchForm;
   let searchValue = '';
+  let dropdown;
+  let githubSearchForm;
+  let isGithubSearch = false;
+
+  function toggleGithubSearch() {
+    isGithubSearch = !isGithubSearch;
+    dropdown.click();
+    isGithubSearch ? githubSearchForm.focus() : searchForm.focus();
+  }
 
   function enterHandler(e) {
     e.preventDefault();
@@ -32,13 +43,24 @@
 
   onMount(() => {
     searchForm.focus();
-    // listen for hotkeys and do fun things
+    hotkeys('ctrl+g', function (event, handler) {
+      event.preventDefault();
+      event.stopPropagation();
+      switch (handler.key) {
+        case 'ctrl+g':
+          console.log('ctrl+g');
+          toggleGithubSearch();
+          break;
+        default:
+      }
+      return false;
+    });
   });
 </script>
 
 <main>
   <Crypto />
-  <Github />
+  <Github bind:dropdown bind:githubSearchForm />
   <input
     style={searchValue[0] == '/' && 'border: 5px solid green;'}
     bind:this={searchForm}

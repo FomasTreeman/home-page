@@ -1,6 +1,6 @@
 <script>
-  let left = 10;
-  let top = 10;
+  export let left;
+  export let top;
 
   let moving = false;
 

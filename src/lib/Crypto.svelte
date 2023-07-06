@@ -1,21 +1,26 @@
 <script>
-  import log from './log';
   import Draggable from './Draggable.svelte';
+  import { onMount } from 'svelte';
+  let innerWidth;
 
   let prices = { eth: { gbp: 0, usd: 0 }, btc: { gbp: 0, usd: 0 } };
 
-  ['BTC-USD', 'BTC-GBP', 'ETH-USD', 'ETH-GBP'].forEach((conversion) => {
-    fetch(`https://api.coinbase.com/v2/prices/${conversion}/buy`)
-      .then((res) => res.json())
-      .then((json) => {
-        const keys = conversion.toLowerCase().split('-');
-        prices[keys[0]][keys[1]] = json.data.amount;
-        prices = { ...prices };
-      });
-  });
+  onMount(() =>
+    ['BTC-USD', 'BTC-GBP', 'ETH-USD', 'ETH-GBP'].forEach((conversion) => {
+      fetch(`https://api.coinbase.com/v2/prices/${conversion}/buy`)
+        .then((res) => res.json())
+        .then((json) => {
+          const keys = conversion.toLowerCase().split('-');
+          prices[keys[0]][keys[1]] = json.data.amount;
+          prices = { ...prices };
+        });
+    })
+  );
 </script>
 
-<Draggable>
+<svelte:window bind:innerWidth />
+
+<Draggable top={10} left={innerWidth - 200}>
   <article>
     <div class="crypto">
       <small class="btc">BTC</small>
