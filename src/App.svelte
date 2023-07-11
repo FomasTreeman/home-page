@@ -1,82 +1,74 @@
 <script>
-  import redirect from './lib/redirect';
-  import log from './lib/log';
   import Crypto from './lib/Crypto.svelte';
   import Github from './lib/Github.svelte';
   import { onMount } from 'svelte';
   import hotkeys from 'hotkeys-js';
+  import Bookmarks from './lib/Bookmarks.svelte';
+  // @ts-ignore
+  import Search from './lib/Search.svelte';
+  import MainSearch from './lib/MainSearch.svelte';
+  import Draggable from './lib/Draggable.svelte';
+
+  let innerWidth;
+  let innerHeight;
 
   let searchForm;
-  let searchValue = '';
-  let dropdown;
   let githubSearchForm;
-  let isGithubSearch = false;
+  let bookmarksSearchForm;
+  // let focusedSearch = '';
 
-  function toggleGithubSearch() {
-    isGithubSearch = !isGithubSearch;
-    dropdown.click();
-    isGithubSearch ? githubSearchForm.focus() : searchForm.focus();
-  }
-
-  function enterHandler(e) {
-    e.preventDefault();
-    if (e.key !== 'Enter') return;
-    let url;
-    log(searchValue[0]);
-    switch (searchValue[0]) {
-      case '/':
-        {
-          url = `https://www.phind.com/search?q=${encodeURIComponent(
-            searchValue.slice(1)
-          )}&source=searchbox`;
-        }
-        break;
-      default: {
-        url = `https://www.google.com/search?q=${encodeURIComponent(
-          searchValue
-        )}&sourceid=chrome&ie=UTF-8`;
-      }
-    }
-    log(url);
-    redirect(url);
-  }
+  // function setFocus() {
+  //   isGithubSearch = !isGithubSearch;
+  //   dropdown.click();
+  //   isGithubSearch ? githubSearchForm.focus() : searchForm.focus();
+  // }
 
   onMount(() => {
     searchForm.focus();
-    hotkeys('ctrl+g', function (event, handler) {
-      event.preventDefault();
-      event.stopPropagation();
-      switch (handler.key) {
-        case 'ctrl+g':
-          console.log('ctrl+g');
-          toggleGithubSearch();
-          break;
-        default:
-      }
-      return false;
-    });
+    // hotkeys('ctrl+g', function (event, handler) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   switch (handler.key) {
+    //     case 'ctrl+g':
+    //       console.log('ctrl+g');
+    //       setFocus();
+    //       break;
+    //     default:
+    //   }
+    //   return false;
+    // });
   });
 </script>
 
 <main>
-  <Crypto />
-  <Github bind:dropdown bind:githubSearchForm />
-  <input
-    style={searchValue[0] == '/' && 'border: 5px solid green;'}
-    bind:this={searchForm}
-    bind:value={searchValue}
-    type="search"
-    on:keyup={enterHandler}
-    placeholder="Search google or phind.com for  ..."
-  />
+  <div class="container">
+    <Search
+      bind:searchField={githubSearchForm}
+      placeholder={'Github 👩‍💻'}
+      comp={Github}
+    />
+    <Search
+      bind:searchField={bookmarksSearchForm}
+      placeholder={'Bookmarks 📌'}
+      comp={Bookmarks}
+    />
+  </div>
+  <Draggable top={innerHeight - 200} left={innerWidth - 200}>
+    <Crypto />
+  </Draggable>
+  <MainSearch bind:searchForm />
 </main>
 
+<svelte:window bind:innerWidth bind:innerHeight />
+
 <style>
-  input[type='search'] {
-    padding: 1em;
-    border-radius: 1em;
-    border: none;
-    width: 30vw;
-    box-sizing: content-box;
+  div.container {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    display: flex;
+    gap: 3rem;
+    justify-content: space-between;
   }
 </style>
