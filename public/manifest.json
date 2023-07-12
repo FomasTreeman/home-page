@@ -2,7 +2,7 @@
   "author": "Thomas Freeman",
   "name": "New Tab",
   "manifest_version": 3,
-  "version": "1.0",
+  "version": "1.2",
   "minimum_chrome_version": "103",
   "description": "My custom power user New Tab page.",
   "icons": {

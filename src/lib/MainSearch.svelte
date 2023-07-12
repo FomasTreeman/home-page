@@ -8,23 +8,23 @@
   function enterHandler(e) {
     e.preventDefault();
     if (e.key !== 'Enter') return;
-    let url;
-    log(searchValue[0]);
-    switch (searchValue[0]) {
-      case '/':
-        {
-          url = `https://www.phind.com/search?q=${encodeURIComponent(
-            searchValue.slice(1)
-          )}&source=searchbox`;
-        }
-        break;
-      default: {
-        url = `https://www.google.com/search?q=${encodeURIComponent(
-          searchValue
-        )}&sourceid=chrome&ie=UTF-8`;
-      }
-    }
-    log(url);
+    const url = `https://www.phind.com/search?q=${encodeURIComponent(
+      searchValue.slice(1)
+    )}&source=searchbox`;
+    // switch (searchValue[0]) {
+    //   case '/':
+    //     {
+    //       url = `https://www.phind.com/search?q=${encodeURIComponent(
+    //         searchValue.slice(1)
+    //       )}&source=searchbox`;
+    //     }
+    //     break;
+    //   default: {
+    //     url = `https://www.google.com/search?q=${encodeURIComponent(
+    //       searchValue
+    //     )}&sourceid=chrome&ie=UTF-8`;
+    //   }
+    // }
     redirect(url);
   }
 </script>
