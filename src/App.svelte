@@ -8,6 +8,7 @@
   import Search from './lib/Search.svelte';
   import MainSearch from './lib/MainSearch.svelte';
   import Draggable from './lib/Draggable.svelte';
+  import Note from './lib/Note.svelte';
 
   let innerWidth;
   let innerHeight;
@@ -15,6 +16,7 @@
   let searchForm;
   let githubSearchForm;
   let bookmarksSearchForm;
+  let notes = [];
   // let focusedSearch = '';
 
   // function setFocus() {
@@ -23,8 +25,16 @@
   //   isGithubSearch ? githubSearchForm.focus() : searchForm.focus();
   // }
 
+  const handleDoubleClick = (e) => {
+    const newId = notes.length;
+    notes = [...notes, { id: newId, left: e.clientX - 50, top: e.clientY }];
+  };
+
   onMount(() => {
     searchForm.focus();
+
+    window.addEventListener('dblclick', handleDoubleClick);
+
     // hotkeys('ctrl+g', function (event, handler) {
     //   event.preventDefault();
     //   event.stopPropagation();
@@ -56,6 +66,11 @@
   <Draggable top={innerHeight - 200} left={innerWidth - 200}>
     <Crypto />
   </Draggable>
+  {#if notes.length}
+    {#each notes as note}
+      <Note left={note.left} top={note.top} id={note.id} bind:notes />
+    {/each}
+  {/if}
   <MainSearch bind:searchForm />
 </main>
 

@@ -34,6 +34,11 @@
 </article>
 
 <style>
+  article {
+    border: 1px solid grey;
+    padding: 1em;
+    border-radius: 1em;
+  }
   article > * {
     margin: 0.75em;
   }

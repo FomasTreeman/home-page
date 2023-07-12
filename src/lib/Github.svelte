@@ -63,6 +63,10 @@
     align-items: flex-start;
     overflow-y: scroll;
     max-height: 75vh;
+    background-color: rgba(45, 49, 53, 0.5);
+    border-radius: 1em;
+    padding: 0.5em;
+    margin: 1em;
   }
 
   a {

@@ -44,24 +44,28 @@
 
 <style>
   section {
-    max-width: 250px;
+    max-width: 260px;
   }
 
   div.nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    background-color: rgba(45, 49, 53, 0.5);
+    border-radius: 1em;
+    padding: 0.5em;
+    margin: 1em;
+    width: 215px;
   }
 
   input {
-    margin: 2em;
+    margin: 1em;
   }
 
   button {
     padding: 0.5em;
     border-radius: 0.5em;
     height: 25px;
-    margin-right: 1.5em;
-    line-height: 1;
+    line-height: 0;
   }
 </style>

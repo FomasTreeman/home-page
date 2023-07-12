@@ -34,9 +34,6 @@
   .draggable {
     user-select: none;
     cursor: move;
-    border: solid 1px grey;
-    border-radius: 1rem;
-    padding: 0.5rem;
     position: absolute;
   }
 </style>
