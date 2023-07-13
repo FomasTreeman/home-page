@@ -1,7 +1,7 @@
 <script>
   import Crypto from './lib/Crypto.svelte';
   import Github from './lib/Github.svelte';
-  import { onMount } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
   import hotkeys from 'hotkeys-js';
   import Bookmarks from './lib/Bookmarks.svelte';
   // @ts-ignore
@@ -17,6 +17,7 @@
   let githubSearchForm;
   let bookmarksSearchForm;
   let notes = [];
+  let loadedLocal = false;
   // let focusedSearch = '';
 
   // function setFocus() {
@@ -27,21 +28,47 @@
 
   const handleDoubleClick = (e) => {
     const newId = notes.length;
-    notes = [...notes, { id: newId, left: e.clientX - 50, top: e.clientY }];
+    notes = [
+      ...notes,
+      { id: newId, left: e.clientX - 50, top: e.clientY, text: '' },
+    ];
+    // chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
+    //   console.log('update ...');
+    // });
+  };
+
+  function removeNote(e) {
+    console.log('remove');
+    const notesWithoutId = notes.filter((note) => note.id != e.detail.id);
+    notes = [...notesWithoutId];
+  }
+
+  function updateNote(e) {
+    const noteIndex = notes.findIndex((note) => note.id == e.detail.id);
+    notes[noteIndex].text = e.detail.text;
+    notes = [...notes];
+  }
+
+  // update notes on movement with dispatch in draggable
+  // ! problem being would break things in crypto draggable
+  // function moveNote(e) {
+  // }
+
+  $: if (loadedLocal)
     chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
       console.log('update ...');
     });
-  };
 
   onMount(async () => {
     console.log('App mounted');
+
+    searchForm.focus();
+
     const local = await chrome.storage.local.get(['notes']);
     const localNotes = JSON.parse(local.notes);
     notes = [...localNotes];
-  });
-
-  onMount(() => {
-    searchForm.focus();
+    console.log('reloaded');
+    loadedLocal = true;
 
     window.addEventListener('dblclick', handleDoubleClick);
 
@@ -78,7 +105,14 @@
   </Draggable>
   {#if notes.length}
     {#each notes as note (note.id)}
-      <Note left={note.left} top={note.top} id={note.id} bind:notes />
+      <Note
+        left={note.left}
+        top={note.top}
+        id={note.id}
+        text={note.text}
+        on:remove={removeNote}
+        on:update={updateNote}
+      />
     {/each}
   {/if}
   <MainSearch bind:searchForm />

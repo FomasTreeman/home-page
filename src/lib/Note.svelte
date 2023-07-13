@@ -1,16 +1,27 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import Draggable from './Draggable.svelte';
-  export let left, top, id, notes;
+  export let left, top, id, text;
 
-  function removeSelf(id) {
-    const notesWithoutId = notes.filter((note) => note.id != id);
-    notes = [...notesWithoutId];
+  const dispatch = createEventDispatcher();
+
+  function removeSelf() {
+    dispatch('remove', {
+      id: id,
+    });
+  }
+
+  function updateText() {
+    dispatch('update', {
+      id: id,
+      text: text,
+    });
   }
 </script>
 
 <Draggable {left} {top}>
-  <textarea />
-  <button on:click={() => removeSelf(id)}> ❌ </button>
+  <textarea on:input={updateText} bind:value={text} />
+  <button on:click={removeSelf}> ❌ </button>
 </Draggable>
 
 <style>
