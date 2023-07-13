@@ -6,11 +6,12 @@
   let filteredList = [];
   let searchValue = '';
   let showList = false;
-
-  $: console.log(list, '🔥', filteredList);
 </script>
 
-<section>
+<section
+  on:mouseleave={() => (showList = false)}
+  on:mouseenter={() => (showList = false)}
+>
   <div class="nav">
     <input
       tabindex="0"
@@ -24,7 +25,7 @@
           ),
         ])}
       on:focusin={() => (showList = true)}
-      on:focusout={() => (showList = false)}
+      on:click={() => (showList = true)}
       {placeholder}
     /><button on:click={() => (showList = !showList)}> ↓ </button>
   </div>

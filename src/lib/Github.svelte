@@ -47,7 +47,7 @@
 
 {#if showList}
   <div class="list">
-    {#each filteredList as repo}
+    {#each filteredList as repo (repo.title)}
       <a href={repo.url}>
         {repo.title}
         {randomEmoji()}
@@ -67,11 +67,17 @@
     border-radius: 1em;
     padding: 0.5em;
     margin: 1em;
+    overflow-x: hidden;
   }
 
   a {
     /* border: 1px solid black; */
     padding-inline: 0.5em;
-    overflow-wrap: break-word;
+    white-space: nowrap;
+    color: rgb(115, 143, 175);
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 </style>

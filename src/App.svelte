@@ -28,7 +28,17 @@
   const handleDoubleClick = (e) => {
     const newId = notes.length;
     notes = [...notes, { id: newId, left: e.clientX - 50, top: e.clientY }];
+    chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
+      console.log('update ...');
+    });
   };
+
+  onMount(async () => {
+    console.log('App mounted');
+    const local = await chrome.storage.local.get(['notes']);
+    const localNotes = JSON.parse(local.notes);
+    notes = [...localNotes];
+  });
 
   onMount(() => {
     searchForm.focus();
@@ -67,7 +77,7 @@
     <Crypto />
   </Draggable>
   {#if notes.length}
-    {#each notes as note}
+    {#each notes as note (note.id)}
       <Note left={note.left} top={note.top} id={note.id} bind:notes />
     {/each}
   {/if}
