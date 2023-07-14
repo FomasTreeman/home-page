@@ -1,7 +1,7 @@
 <script>
   import Crypto from './lib/Crypto.svelte';
   import Github from './lib/Github.svelte';
-  import { onMount, createEventDispatcher } from 'svelte';
+  import { onMount } from 'svelte';
   import hotkeys from 'hotkeys-js';
   import Bookmarks from './lib/Bookmarks.svelte';
   // @ts-ignore
@@ -51,6 +51,7 @@
 
   // update notes on movement with dispatch in draggable
   // ! problem being would break things in crypto draggable
+
   // function moveNote(e) {
   // }
 
