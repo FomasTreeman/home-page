@@ -24,6 +24,9 @@
             item.title.toLowerCase().includes(searchValue)
           ),
         ])}
+      on:keyup={(e) => {
+        if (e.key == 'Enter') window.location.assign(filteredList[0].url);
+      }}
       on:focusin={() => (showList = true)}
       on:click={() => (showList = true)}
       {placeholder}
@@ -34,6 +37,7 @@
     <Loading />
   {/if}
 
+  <!-- probably bad practice should use event dispatch and normal slot component -->
   <svelte:component
     this={comp}
     bind:searchValue
