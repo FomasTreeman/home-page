@@ -10,3 +10,7 @@ The user-specific data, will come from github and your date of birth :)
 
 ![coming-soon-gif-by-arielle-m](https://github.com/FomasTreeman/home-page/assets/44851616/71b7f6c6-ff60-4d0e-9252-14ded179f126)
 
+
+## Setup requirements
+
+🤐 src/env.js that exports GITHUB_TOKEN and UNSPLASH_TOKEN
