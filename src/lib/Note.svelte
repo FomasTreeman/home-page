@@ -8,20 +8,20 @@
 
   function removeSelf() {
     dispatch('remove', {
-      id: id,
+      id,
     });
   }
 
   function updateText() {
     dispatch('update', {
-      id: id,
-      text: text,
+      id,
+      text,
     });
   }
 </script>
 
 <Draggable {left} {top} noteId={id} on:posChange>
-  <textarea spellcheck on:input={updateText} bind:value={text} />
+  <textarea spellcheck on:change={updateText} bind:value={text} />
   <button on:click={removeSelf}> ❌ </button>
 </Draggable>
 

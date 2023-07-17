@@ -16,7 +16,7 @@
   let searchForm;
   let githubSearchForm;
   let bookmarksSearchForm;
-  let notes = [];
+  let notes = {};
   let loadedLocal = false;
   // let focusedSearch = '';
 
@@ -27,45 +27,28 @@
   // }
 
   const handleDoubleClick = (e) => {
-    const newId = notes.length;
-    notes = [
+    const newId = crypto.randomUUID();
+    notes = {
       ...notes,
-      { id: newId, left: e.clientX - 50, top: e.clientY, text: '' },
-    ];
-    // chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
-    //   console.log('update ...');
-    // });
+      [newId]: { left: e.clientX - 50, top: e.clientY, text: '' },
+    };
   };
 
   function removeNote(e) {
-    console.log('remove');
-    const notesWithoutId = notes.filter((note) => note.id != e.detail.id);
-    notes = [...notesWithoutId];
+    const { id } = e.detail;
+    delete notes[id];
+    notes = { ...notes };
   }
 
   function updateNote(e) {
-    const noteIndex = notes.findIndex((note) => note.id == e.detail.id);
-    notes[noteIndex].text = e.detail.text;
-    notes = [...notes];
+    const { id, text } = e.detail;
+    notes = { ...notes, [id]: { ...notes[id], text } };
   }
 
   function updateNoteMovement(e) {
-    console.log('🎊', 'updating position');
     const { id, left, top } = e.detail;
-    const noteIndex = notes.findIndex((note) => note.id == id);
-    notes[noteIndex] = {
-      ...notes[noteIndex],
-      left,
-      top,
-    };
-    notes = [...notes];
+    notes = { ...notes, [id]: { ...notes[id], left, top } };
   }
-
-  // update notes on movement with dispatch in draggable
-  // ! problem being would break things in crypto draggable
-
-  // function moveNote(e) {
-  // }
 
   $: if (loadedLocal)
     chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
@@ -79,7 +62,7 @@
 
     const local = await chrome.storage.local.get(['notes']);
     const localNotes = JSON.parse(local.notes);
-    notes = [...localNotes];
+    notes = { ...localNotes };
     console.log('reloaded');
     loadedLocal = true;
 
@@ -116,12 +99,12 @@
   <Draggable top={innerHeight - 200} left={innerWidth - 200}>
     <Crypto />
   </Draggable>
-  {#if notes.length}
-    {#each notes as note (note.id)}
+  {#if notes}
+    {#each Object.entries(notes) as [id, note] (id)}
       <Note
         left={note.left}
         top={note.top}
-        id={note.id}
+        {id}
         text={note.text}
         on:remove={removeNote}
         on:update={updateNote}
