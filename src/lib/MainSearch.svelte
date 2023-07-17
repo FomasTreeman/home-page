@@ -1,6 +1,5 @@
 <script>
   import redirect from '../lib/redirect';
-  import log from '../lib/log';
 
   export let searchForm;
   let searchValue = '';
@@ -9,7 +8,7 @@
     e.preventDefault();
     if (e.key !== 'Enter') return;
     const url = `https://www.phind.com/search?q=${encodeURIComponent(
-      searchValue.slice(1)
+      searchValue
     )}&source=searchbox`;
     redirect(url);
   }

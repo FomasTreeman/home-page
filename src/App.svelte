@@ -9,7 +9,6 @@
   import MainSearch from './lib/MainSearch.svelte';
   import Draggable from './lib/Draggable.svelte';
   import Note from './lib/Note.svelte';
-  import { UNSPLASH_TOKEN } from './env';
   import Clock from './lib/Clock.svelte';
   import Age from './lib/Age.svelte';
 
@@ -59,24 +58,20 @@
     });
 
   async function getRandomImage() {
-    console.log('🔥', UNSPLASH_TOKEN);
     const response = await fetch(
       'https://api.unsplash.com/photos/random?query=nature',
       {
         headers: {
           'Accept-Version': 'v1',
-          Authorization: `Client-ID ${UNSPLASH_TOKEN}`,
+          Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_TOKEN}`,
         },
       }
     );
     const json = await response.json();
-    console.log(json);
     return json.urls.full;
   }
 
   onMount(async () => {
-    console.log('App mounted');
-
     getRandomImage().then(
       (bg) => (document.body.style.backgroundImage = `url(${bg})`)
     );
@@ -86,7 +81,6 @@
     const local = await chrome.storage.local.get(['notes']);
     const localNotes = JSON.parse(local.notes);
     notes = { ...localNotes };
-    console.log('reloaded');
     loadedLocal = true;
 
     window.addEventListener('dblclick', handleDoubleClick);
@@ -96,7 +90,6 @@
     //   event.stopPropagation();
     //   switch (handler.key) {
     //     case 'ctrl+g':
-    //       console.log('ctrl+g');
     //       setFocus();
     //       break;
     //     default:
