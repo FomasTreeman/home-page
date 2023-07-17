@@ -38,13 +38,14 @@
     border: 1px solid grey;
     padding: 1em;
     border-radius: 1em;
+    background-color: rgb(48 45 45 / 50%);
   }
   article > * {
     margin: 0.75em;
   }
 
   .btc {
-    color: green;
+    color: #00d100;
   }
 
   .eth {

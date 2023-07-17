@@ -9,6 +9,9 @@
   import MainSearch from './lib/MainSearch.svelte';
   import Draggable from './lib/Draggable.svelte';
   import Note from './lib/Note.svelte';
+  import { UNSPLASH_TOKEN } from './env';
+  import Clock from './lib/Clock.svelte';
+  import Age from './lib/Age.svelte';
 
   let innerWidth;
   let innerHeight;
@@ -55,8 +58,28 @@
       console.log('update ...');
     });
 
+  async function getRandomImage() {
+    console.log('🔥', UNSPLASH_TOKEN);
+    const response = await fetch(
+      'https://api.unsplash.com/photos/random?query=nature',
+      {
+        headers: {
+          'Accept-Version': 'v1',
+          Authorization: `Client-ID ${UNSPLASH_TOKEN}`,
+        },
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+    return json.urls.full;
+  }
+
   onMount(async () => {
     console.log('App mounted');
+
+    getRandomImage().then(
+      (bg) => (document.body.style.backgroundImage = `url(${bg})`)
+    );
 
     searchForm.focus();
 
@@ -84,6 +107,7 @@
 </script>
 
 <main>
+  <Age />
   <div class="container">
     <Search
       bind:searchField={githubSearchForm}
@@ -96,6 +120,7 @@
       comp={Bookmarks}
     />
   </div>
+  <Clock />
   <Draggable top={innerHeight - 200} left={innerWidth - 200}>
     <Crypto />
   </Draggable>

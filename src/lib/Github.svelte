@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import emojis from './emojis';
+  import { GITHUB_TOKEN } from '../env';
 
   export let list = [];
   export let filteredList = [];
@@ -13,11 +14,12 @@
 
   async function fetchRepos(isRetry = false) {
     // if (isRetry) githubRetryShow = false;
+    console.log(GITHUB_TOKEN);
     try {
       fetch(`https://api.github.com/users/FomasTreeman/repos?per_page=100`, {
         headers: {
           Accept: 'application/vnd.github+json',
-          Authorization: import.meta.env.TOKEN,
+          Authorization: GITHUB_TOKEN,
         },
       })
         .then((resp) => resp.json())
