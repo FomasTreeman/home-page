@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import Draggable from './Draggable.svelte';
+
   export let left, top, id, text;
 
   const dispatch = createEventDispatcher();
@@ -19,19 +20,23 @@
   }
 </script>
 
-<Draggable {left} {top}>
-  <textarea on:input={updateText} bind:value={text} />
+<Draggable {left} {top} noteId={id} on:posChange>
+  <textarea spellcheck on:input={updateText} bind:value={text} />
   <button on:click={removeSelf}> ❌ </button>
 </Draggable>
 
 <style>
   textarea {
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: yellow;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     color: black;
     padding: 1em;
+    border: none;
+    box-shadow: 9px 11px 11px 0px rgba(0, 0, 0, 0.1),
+      0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+    resize: none;
   }
 
   button {

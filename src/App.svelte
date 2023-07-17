@@ -2,7 +2,7 @@
   import Crypto from './lib/Crypto.svelte';
   import Github from './lib/Github.svelte';
   import { onMount } from 'svelte';
-  import hotkeys from 'hotkeys-js';
+  // import hotkeys from 'hotkeys-js';
   import Bookmarks from './lib/Bookmarks.svelte';
   // @ts-ignore
   import Search from './lib/Search.svelte';
@@ -46,6 +46,18 @@
   function updateNote(e) {
     const noteIndex = notes.findIndex((note) => note.id == e.detail.id);
     notes[noteIndex].text = e.detail.text;
+    notes = [...notes];
+  }
+
+  function updateNoteMovement(e) {
+    console.log('🎊', 'updating position');
+    const { id, left, top } = e.detail;
+    const noteIndex = notes.findIndex((note) => note.id == id);
+    notes[noteIndex] = {
+      ...notes[noteIndex],
+      left,
+      top,
+    };
     notes = [...notes];
   }
 
@@ -113,6 +125,7 @@
         text={note.text}
         on:remove={removeNote}
         on:update={updateNote}
+        on:posChange={updateNoteMovement}
       />
     {/each}
   {/if}
