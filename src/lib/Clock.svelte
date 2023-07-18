@@ -11,13 +11,13 @@
       hour: 'numeric',
       minute: 'numeric',
     };
+
+    time = new Date().toLocaleDateString('en-US', dateOptions);
     setInterval(() => {
       // @ts-ignore
       time = new Date().toLocaleDateString('en-US', dateOptions);
     }, 1000);
   });
-
-  $: console.log('🕰️', time);
 </script>
 
 <h1>{time?.split(' ').splice(4).join(' ') || ''}</h1>

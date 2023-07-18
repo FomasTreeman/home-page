@@ -128,7 +128,7 @@
       />
     {/each}
   {/if}
-  <MainSearch bind:searchForm />
+  <MainSearch />
 </main>
 
 <svelte:window bind:innerWidth bind:innerHeight />

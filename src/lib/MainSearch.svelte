@@ -1,7 +1,6 @@
 <script>
   import redirect from '../lib/redirect';
 
-  export let searchForm;
   let searchValue = '';
 
   function enterHandler(e) {
@@ -15,8 +14,8 @@
 </script>
 
 <input
+  id="phindSearchForm"
   style={searchValue[0] == '/' && 'border: 5px solid green;'}
-  tabindex="0"
   bind:value={searchValue}
   type="search"
   on:keyup={enterHandler}
