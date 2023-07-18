@@ -76,8 +76,6 @@
       (bg) => (document.body.style.backgroundImage = `url(${bg})`)
     );
 
-    searchForm.focus();
-
     const local = await chrome.storage.local.get(['notes']);
     const localNotes = JSON.parse(local.notes);
     notes = { ...localNotes };

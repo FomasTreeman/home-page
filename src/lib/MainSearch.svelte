@@ -16,7 +16,7 @@
 
 <input
   style={searchValue[0] == '/' && 'border: 5px solid green;'}
-  bind:this={searchForm}
+  tabindex="0"
   bind:value={searchValue}
   type="search"
   on:keyup={enterHandler}
