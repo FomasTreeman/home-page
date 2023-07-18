@@ -10,7 +10,6 @@
   const dispatch = createEventDispatcher();
 
   function updateNotesPosition() {
-    console.log(`update ${noteId} dispatch`);
     dispatch('posChange', {
       id: noteId,
       left,

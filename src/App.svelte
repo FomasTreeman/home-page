@@ -2,9 +2,8 @@
   import Crypto from './lib/Crypto.svelte';
   import Github from './lib/Github.svelte';
   import { onMount } from 'svelte';
-  // import hotkeys from 'hotkeys-js';
+  import hotkeys from 'hotkeys-js';
   import Bookmarks from './lib/Bookmarks.svelte';
-  // @ts-ignore
   import Search from './lib/Search.svelte';
   import MainSearch from './lib/MainSearch.svelte';
   import Draggable from './lib/Draggable.svelte';
@@ -83,17 +82,17 @@
 
     window.addEventListener('dblclick', handleDoubleClick);
 
-    // hotkeys('ctrl+g', function (event, handler) {
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   switch (handler.key) {
-    //     case 'ctrl+g':
-    //       setFocus();
-    //       break;
-    //     default:
-    //   }
-    //   return false;
-    // });
+    hotkeys('command+s', function (event, handler) {
+      event.preventDefault();
+      event.stopPropagation();
+      switch (handler.key) {
+        case 'command+s':
+          searchForm.focus();
+          break;
+        default:
+      }
+      return false;
+    });
   });
 </script>
 
@@ -128,7 +127,7 @@
       />
     {/each}
   {/if}
-  <MainSearch />
+  <MainSearch bind:searchForm />
 </main>
 
 <svelte:window bind:innerWidth bind:innerHeight />

@@ -8,10 +8,7 @@
   let showList = false;
 </script>
 
-<section
-  on:mouseleave={() => (showList = false)}
-  on:mouseenter={() => (showList = false)}
->
+<section on:mouseenter={() => (showList = false)}>
   <div class="nav">
     <input
       tabindex="0"
@@ -56,7 +53,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: rgba(45, 49, 53, 0.5);
+    background-color: rgba(59, 64, 68, 0.5);
     border-radius: 1em;
     padding: 0.5em;
     margin: 1em;
