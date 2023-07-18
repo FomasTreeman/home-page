@@ -31,7 +31,13 @@
     const newId = crypto.randomUUID();
     notes = {
       ...notes,
-      [newId]: { left: e.clientX - 50, top: e.clientY, text: '' },
+      [newId]: {
+        left: e.clientX - 50,
+        top: e.clientY,
+        text: '',
+        colour: '#ffff00',
+        size: 'medium',
+      },
     };
   };
 
@@ -49,6 +55,16 @@
   function updateNoteMovement(e) {
     const { id, left, top } = e.detail;
     notes = { ...notes, [id]: { ...notes[id], left, top } };
+  }
+
+  function updateNoteColour(e) {
+    const { id, colour } = e.detail;
+    notes = { ...notes, [id]: { ...notes[id], colour } };
+  }
+
+  function updateNoteSize(e) {
+    const { id, size } = e.detail;
+    notes = { ...notes, [id]: { ...notes[id], size } };
   }
 
   $: if (loadedLocal)
@@ -119,11 +135,15 @@
       <Note
         left={note.left}
         top={note.top}
+        colour={note.colour}
+        size={note.size}
         {id}
         text={note.text}
         on:remove={removeNote}
         on:update={updateNote}
         on:posChange={updateNoteMovement}
+        on:updateColour={updateNoteColour}
+        on:updateSize={updateNoteSize}
       />
     {/each}
   {/if}

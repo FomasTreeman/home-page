@@ -63,21 +63,21 @@
     align-items: flex-start;
     overflow-y: scroll;
     max-height: 75vh;
-    background-color: rgba(45, 49, 53, 0.85);
+    gap: 0.5rem;
+    background-color: #2d3135d9;
     border-radius: 1em;
     padding: 0.5em;
     margin: 1em;
     overflow-x: hidden;
+    padding-block: 0.6rem;
   }
 
   a {
-    /* border: 1px solid black; */
     padding-inline: 0.5em;
     white-space: nowrap;
     color: white;
-    mix-blend-mode: difference;
+    line-height: normal;
   }
-
   a:hover {
     text-decoration: underline;
   }
