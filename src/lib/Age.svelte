@@ -6,7 +6,6 @@
   let times = [];
 
   function setNewTimesDiff() {
-    console.log('jahahahh');
     const newTimes = [];
     const currentDate = new Date().getTime();
     const timeDifference = currentDate - birthday;
@@ -43,5 +42,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
+    font-size: large;
   }
 </style>
