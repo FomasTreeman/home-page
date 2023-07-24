@@ -1,25 +1,20 @@
 <script>
   import { onMount } from 'svelte';
 
-  const birthday = new Date('2001-04-13').getTime(); // Replace 'YYYY-MM-DD' with your actual birthday
+  const birthday = new Date('2001-04-13'); // Replace 'YYYY-MM-DD' with your actual birthday
+  const EPOCH = new Date(0);
 
-  let times = [];
+  let age = [];
 
   function setNewTimesDiff() {
-    const newTimes = [];
-    const currentDate = new Date().getTime();
-    const timeDifference = currentDate - birthday;
-    const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
-    newTimes.push(years);
-    const months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30)) % 12;
-    newTimes.push(months);
-    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) % 30;
-    newTimes.push(days);
-    const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
-    newTimes.push(hours);
-    const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
-    newTimes.push(minutes);
-    times = [...newTimes];
+    const diff = new Date(Date.now() - birthday.getTime());
+
+    const years = Math.abs(diff.getUTCFullYear() - EPOCH.getUTCFullYear());
+    const months = Math.abs(diff.getUTCMonth() - EPOCH.getUTCMonth());
+    const days = Math.abs(diff.getUTCDate() - EPOCH.getUTCDate());
+    const hours = Math.abs(diff.getUTCHours() - EPOCH.getUTCHours());
+    const min = Math.abs(diff.getUTCMinutes() - EPOCH.getUTCMinutes());
+    age = [years, months, days, hours, min];
   }
 
   onMount(() => {
@@ -31,7 +26,7 @@
 </script>
 
 <h1>
-  {times[0]} years, {times[1]} months, {times[2]} days, {times[3]} hours, {times[4]}
+  {age[0]} years, {age[1]} months, {age[2]} days, {age[3]} hours, {age[4]}
   min
 </h1>
 
