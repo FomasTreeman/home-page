@@ -10,6 +10,7 @@
   import Note from './lib/Note.svelte';
   import Clock from './lib/Clock.svelte';
   import Age from './lib/Age.svelte';
+  import Settings from './lib/Settings.svelte';
 
   let innerWidth;
   let innerHeight;
@@ -19,6 +20,7 @@
   let bookmarksSearchForm;
   let notes = {};
   let loadedLocal = false;
+  let showSettings = false;
   // let focusedSearch = '';
 
   // function setFocus() {
@@ -32,14 +34,24 @@
     notes = {
       ...notes,
       [newId]: {
-        left: e.clientX - 50,
-        top: e.clientY,
+        left: (e.clientX - 100) / (innerWidth / 100),
+        top: e.clientY / (innerHeight / 100),
         text: '',
         colour: '#ffff00',
         size: 'medium',
       },
     };
   };
+
+  function resetPos() {
+    console.log('reset ...');
+    for (const key of Object.keys(notes)) {
+      console.log(key);
+      notes[key].left = 0;
+      notes[key].top = 0;
+    }
+    notes = { ...notes };
+  }
 
   function removeNote(e) {
     const { id } = e.detail;
@@ -133,11 +145,11 @@
   {#if notes}
     {#each Object.entries(notes) as [id, note] (id)}
       <Note
+        {id}
         left={note.left}
         top={note.top}
         colour={note.colour}
         size={note.size}
-        {id}
         text={note.text}
         on:remove={removeNote}
         on:update={updateNote}
@@ -148,6 +160,12 @@
     {/each}
   {/if}
   <MainSearch bind:searchForm />
+  {#if showSettings}
+    <Settings on:resetPos={resetPos} bind:showSettings />
+  {/if}
+  <button class="settings" on:click={() => (showSettings = !showSettings)}
+    >⚙️</button
+  >
 </main>
 
 <svelte:window bind:innerWidth bind:innerHeight />
@@ -161,5 +179,11 @@
     display: flex;
     gap: 3rem;
     justify-content: space-between;
+  }
+
+  button.settings {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
   }
 </style>
