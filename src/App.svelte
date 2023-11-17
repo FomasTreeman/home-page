@@ -1,15 +1,15 @@
 <script>
-  import Crypto from './lib/Crypto.svelte';
-  import Github from './lib/Github.svelte';
-  import { onMount } from 'svelte';
-  import hotkeys from 'hotkeys-js';
-  import Bookmarks from './lib/Bookmarks.svelte';
-  import Search from './lib/Search.svelte';
-  import MainSearch from './lib/MainSearch.svelte';
-  import Draggable from './lib/Draggable.svelte';
-  import Note from './lib/Note.svelte';
-  import Clock from './lib/Clock.svelte';
-  import Age from './lib/Age.svelte';
+  import Crypto from "./lib/Crypto.svelte";
+  import Github from "./lib/Github.svelte";
+  import { onMount } from "svelte";
+  import hotkeys from "hotkeys-js";
+  import Bookmarks from "./lib/Bookmarks.svelte";
+  import Search from "./lib/Search.svelte";
+  import MainSearch from "./lib/MainSearch.svelte";
+  import Draggable from "./lib/Draggable.svelte";
+  import Note from "./lib/Note.svelte";
+  import Clock from "./lib/Clock.svelte";
+  import Age from "./lib/Age.svelte";
 
   let innerWidth;
   let innerHeight;
@@ -18,7 +18,7 @@
   let githubSearchForm;
   let bookmarksSearchForm;
   let notes = {};
-  let loadedLocal = false;
+  let loaded = false;
   // let focusedSearch = '';
 
   // function setFocus() {
@@ -28,15 +28,16 @@
   // }
 
   const handleDoubleClick = (e) => {
+    console.log("yay");
     const newId = crypto.randomUUID();
     notes = {
       ...notes,
       [newId]: {
         left: e.clientX - 50,
         top: e.clientY,
-        text: '',
-        colour: '#ffff00',
-        size: 'medium',
+        text: "",
+        colour: "#ffff00",
+        size: "medium",
       },
     };
   };
@@ -67,17 +68,17 @@
     notes = { ...notes, [id]: { ...notes[id], size } };
   }
 
-  $: if (loadedLocal)
+  $: if (loaded)
     chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
-      console.log('update ...');
+      console.log("update ...");
     });
 
   async function getRandomImage() {
     const response = await fetch(
-      'https://api.unsplash.com/photos/random?query=nature',
+      "https://api.unsplash.com/photos/random?query=nature",
       {
         headers: {
-          'Accept-Version': 'v1',
+          "Accept-Version": "v1",
           Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_TOKEN}`,
         },
       }
@@ -87,22 +88,25 @@
   }
 
   onMount(async () => {
+    window.addEventListener("dblclick", handleDoubleClick);
+
     getRandomImage().then(
       (bg) => (document.body.style.backgroundImage = `url(${bg})`)
     );
 
-    const local = await chrome.storage.local.get(['notes']);
-    const localNotes = JSON.parse(local.notes);
-    notes = { ...localNotes };
-    loadedLocal = true;
+    const local = await chrome.storage.local.get(["notes"]);
+    if (Object.keys(local).length !== 0) {
+      const localNotes = JSON.parse(local.notes);
+      notes = { ...localNotes };
+    }
+    console.log("loaded");
+    loaded = true;
 
-    window.addEventListener('dblclick', handleDoubleClick);
-
-    hotkeys('command+s', function (event, handler) {
+    hotkeys("command+s", function (event, handler) {
       event.preventDefault();
       event.stopPropagation();
       switch (handler.key) {
-        case 'command+s':
+        case "command+s":
           searchForm.focus();
           break;
         default:
@@ -117,12 +121,12 @@
   <div class="container">
     <Search
       bind:searchField={githubSearchForm}
-      placeholder={'Github 👩‍💻'}
+      placeholder={"Github 👩‍💻"}
       comp={Github}
     />
     <Search
       bind:searchField={bookmarksSearchForm}
-      placeholder={'Bookmarks 📌'}
+      placeholder={"Bookmarks 📌"}
       comp={Bookmarks}
     />
   </div>
