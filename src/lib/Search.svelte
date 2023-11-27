@@ -58,6 +58,9 @@
     padding: 0.5em;
     margin: 1em;
     max-width: 215px;
+    box-shadow:
+      9px 11px 11px 0px rgba(0, 0, 0, 0.2),
+      0px 10px 15px -3px rgba(0, 0, 0, 0.2);
   }
 
   input {
@@ -66,6 +69,12 @@
     border-radius: 5px;
     padding: 4px;
     width: 100%;
+    background: transparent;
+  }
+
+  input::placeholder {
+    color: rgb(207, 207, 207);
+    letter-spacing: 0.1rem;
   }
 
   button {

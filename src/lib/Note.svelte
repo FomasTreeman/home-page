@@ -1,36 +1,36 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  import Draggable from './Draggable.svelte';
+  import { createEventDispatcher } from "svelte";
+  import Draggable from "./Draggable.svelte";
 
   export let left,
     top,
     id,
     text,
-    colour = '#ffff00',
-    size = 'medium';
+    colour = "#ffff00",
+    size = "medium";
   let isShowOptions = false;
 
   const dispatch = createEventDispatcher();
 
   function removeSelf() {
-    dispatch('remove', {
+    dispatch("remove", {
       id,
     });
   }
 
   function updateText() {
-    dispatch('update', {
+    dispatch("update", {
       id,
       text,
     });
   }
 
-  $: dispatch('updateColour', {
+  $: dispatch("updateColour", {
     id,
     colour,
   });
 
-  $: dispatch('updateSize', {
+  $: dispatch("updateSize", {
     id,
     size,
   });
@@ -87,8 +87,9 @@
     padding: 1em;
     padding-top: 1.7em;
     border: none;
-    box-shadow: 9px 11px 11px 0px rgba(0, 0, 0, 0.1),
-      0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      9px 11px 11px 0px rgba(0, 0, 0, 0.3),
+      0px 10px 15px -3px rgba(0, 0, 0, 0.3);
     resize: none;
   }
 
@@ -134,7 +135,7 @@
     border-radius: 0.5rem;
   }
 
-  input[type='color'] {
+  input[type="color"] {
     background-color: #00000085;
     width: 25px;
     height: 25px;

@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   export let left;
   export let top;
@@ -10,7 +10,7 @@
   const dispatch = createEventDispatcher();
 
   function updateNotesPosition() {
-    dispatch('posChange', {
+    dispatch("posChange", {
       id: noteId,
       left,
       top,
@@ -29,7 +29,7 @@
   }
 
   function onMouseUp() {
-    moving == true && noteId != 0 ? updateNotesPosition() : '';
+    moving == true && noteId != 0 ? updateNotesPosition() : "";
     moving = false;
   }
 </script>

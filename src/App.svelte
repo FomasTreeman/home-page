@@ -19,6 +19,7 @@
   let bookmarksSearchForm;
   let notes = {};
   let loaded = false;
+  let imageUrl;
   // let focusedSearch = '';
 
   // function setFocus() {
@@ -73,26 +74,14 @@
       console.log("update ...");
     });
 
-  async function getRandomImage() {
-    const response = await fetch(
-      "https://api.unsplash.com/photos/random?query=nature",
-      {
-        headers: {
-          "Accept-Version": "v1",
-          Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_TOKEN}`,
-        },
-      }
-    );
-    const json = await response.json();
-    return json.urls.full;
-  }
+  $: chrome.storage.local
+    .get("imageUrl")
+    .then((store) => (imageUrl = store.imageUrl));
+
+  $: document.body.style.backgroundImage = `url(${imageUrl})`;
 
   onMount(async () => {
     window.addEventListener("dblclick", handleDoubleClick);
-
-    getRandomImage().then(
-      (bg) => (document.body.style.backgroundImage = `url(${bg})`)
-    );
 
     const local = await chrome.storage.local.get(["notes"]);
     if (Object.keys(local).length !== 0) {
@@ -102,17 +91,17 @@
     console.log("loaded");
     loaded = true;
 
-    hotkeys("command+s", function (event, handler) {
-      event.preventDefault();
-      event.stopPropagation();
-      switch (handler.key) {
-        case "command+s":
-          searchForm.focus();
-          break;
-        default:
-      }
-      return false;
-    });
+    // hotkeys("command+s", function (event, handler) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   switch (handler.key) {
+    //     case "command+s":
+    //       searchForm.focus();
+    //       break;
+    //     default:
+    //   }
+    //   return false;
+    // });
   });
 </script>
 

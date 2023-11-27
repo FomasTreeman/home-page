@@ -18,6 +18,7 @@
   "dependencies": {
     "@types/chrome": "^0.0.251",
     "hotkeys-js": "^3.10.4",
-    "random-unicode-emoji": "^1.0.5"
+    "random-unicode-emoji": "^1.0.5",
+    "sveltekit-adapter-chrome-extension": "^2.0.0"
   }
 }

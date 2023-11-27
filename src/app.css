@@ -1,5 +1,10 @@
+@font-face {
+  font-family: Montserrat;
+  src: url(Montserrat-VariableFont_wght.ttf);
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat;
   line-height: 1.5;
   font-weight: 400;
 
@@ -32,11 +37,13 @@ body {
   background-size: cover;
   position: fixed;
   width: 100vw;
+  letter-spacing: 0.1rem;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-weight: bold;
 }
 
 .card {
