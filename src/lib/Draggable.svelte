@@ -3,6 +3,8 @@
 
   export let left;
   export let top;
+  let innerWidth = 0;
+  let innerHeight = 0;
   export let noteId = 0;
 
   let moving = false;
@@ -23,8 +25,8 @@
 
   function onMouseMove(e) {
     if (moving) {
-      left += e.movementX;
-      top += e.movementY;
+      left += e.movementX / (innerWidth / 100);
+      top += e.movementY / (innerHeight / 100);
     }
   }
 
@@ -35,14 +37,19 @@
 </script>
 
 <section
+  style="left: {left}%; top: {top}%;"
   on:mousedown={onMouseDown}
-  style="left: {left}px; top: {top}px;"
   class="draggable"
 >
   <slot />
 </section>
 
-<svelte:window on:mouseup={onMouseUp} on:mousemove={onMouseMove} />
+<svelte:window
+  on:mouseup={onMouseUp}
+  on:mousemove={onMouseMove}
+  bind:innerHeight
+  bind:innerWidth
+/>
 
 <style>
   .draggable {

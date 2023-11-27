@@ -81,8 +81,8 @@
 <style>
   textarea {
     border-radius: 4px;
-    width: 150px;
-    height: 150px;
+    width: 10rem;
+    height: 10rem;
     color: black;
     padding: 1em;
     padding-top: 1.7em;
@@ -94,17 +94,17 @@
   }
 
   .large {
-    width: 250px;
-    height: 150px;
+    width: 15rem;
+    height: 10rem;
   }
 
   .medium {
-    width: 150px;
-    height: 150px;
+    width: 10rem;
+    height: 10rem;
   }
   .small {
-    width: 100px;
-    height: 100px;
+    width: 7.5rem;
+    height: 7.5rem;
   }
   button {
     width: 1rem;
