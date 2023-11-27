@@ -19,8 +19,8 @@
   let githubSearchForm;
   let bookmarksSearchForm;
   let notes = {};
-  let loadedLocal = false;
   let showSettings = false;
+  let loaded = false;
   // let focusedSearch = '';
 
   // function setFocus() {
@@ -30,6 +30,7 @@
   // }
 
   const handleDoubleClick = (e) => {
+    console.log('yay');
     const newId = crypto.randomUUID();
     notes = {
       ...notes,
@@ -79,7 +80,7 @@
     notes = { ...notes, [id]: { ...notes[id], size } };
   }
 
-  $: if (loadedLocal)
+  $: if (loaded)
     chrome.storage.local.set({ notes: JSON.stringify(notes) }).then(() => {
       console.log('update ...');
     });
@@ -99,16 +100,19 @@
   }
 
   onMount(async () => {
+    window.addEventListener('dblclick', handleDoubleClick);
+
     getRandomImage().then(
       (bg) => (document.body.style.backgroundImage = `url(${bg})`)
     );
 
     const local = await chrome.storage.local.get(['notes']);
-    const localNotes = JSON.parse(local.notes);
-    notes = { ...localNotes };
-    loadedLocal = true;
-
-    window.addEventListener('dblclick', handleDoubleClick);
+    if (Object.keys(local).length !== 0) {
+      const localNotes = JSON.parse(local.notes);
+      notes = { ...localNotes };
+    }
+    console.log('loaded');
+    loaded = true;
 
     hotkeys('command+s', function (event, handler) {
       event.preventDefault();

@@ -1,10 +1,10 @@
 <script>
-  import Loading from './Loading.svelte';
+  import Loading from "./Loading.svelte";
 
   export let comp, searchField, placeholder;
   let list = [];
   let filteredList = [];
-  let searchValue = '';
+  let searchValue = "";
   let showList = false;
 </script>
 
@@ -22,7 +22,7 @@
           ),
         ])}
       on:keyup={(e) => {
-        if (e.key == 'Enter') window.location.assign(filteredList[0].url);
+        if (e.key == "Enter") window.location.assign(filteredList[0].url);
       }}
       on:focusin={() => (showList = true)}
       on:click={() => (showList = true)}
@@ -57,7 +57,7 @@
     border-radius: 1em;
     padding: 0.5em;
     margin: 1em;
-    width: 215px;
+    max-width: 215px;
   }
 
   input {
@@ -65,6 +65,7 @@
     border: none;
     border-radius: 5px;
     padding: 4px;
+    width: 100%;
   }
 
   button {
@@ -72,5 +73,7 @@
     border-radius: 0.5em;
     height: 25px;
     line-height: 0;
+    padding-top: 0.3rem;
+    margin-right: 0.5rem;
   }
 </style>
